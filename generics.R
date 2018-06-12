@@ -33,3 +33,13 @@ asdate <- function(x, fmt){
     )
     return(dt)
 }
+
+spatialFilter <- function(r, fileOut, agricKind){
+
+    size <- 5
+	w <- matrix(data=1, ncol=size, nrow=size)
+	r <- focal(r, w=w, fun = max, na.rm=T, pad = T, padValue = 1)
+	r <- reclassify(r, c(-Inf, 15, 0, 15, Inf, agricKind), filename = fileOut, format = 'GTiff')
+	return(r)
+
+}
